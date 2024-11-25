@@ -12,7 +12,15 @@ public class TextTransformer {
     }
 
     public String transform(String text){
-        // of course, normally it would do something based on the transforms
-        return text.toUpperCase();
+        String result = text;
+        for (String transform : transforms) {
+            if ("upper".equalsIgnoreCase(transform)) {
+                result = result.toUpperCase();
+            } else if ("reverse".equalsIgnoreCase(transform)) {
+                result = new StringBuilder(result).reverse().toString();
+            }
+            // Dodaj inne transformacje tutaj
+        }
+        return result;
     }
 }
