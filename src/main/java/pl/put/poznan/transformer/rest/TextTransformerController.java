@@ -1,46 +1,33 @@
 package pl.put.poznan.transformer.rest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.transformer.logic.TextTransformer;
+import pl.put.poznan.transformer.logic.TextTransformRequest;
+import pl.put.poznan.transformer.logic.TextTransformResponse;
 
 import java.util.Arrays;
 
-
 @RestController
-@RequestMapping("/{text}")
+@RequestMapping("/transform")
 public class TextTransformerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public String get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public TextTransformResponse transformText(@RequestBody TextTransformRequest request) {
 
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        // Logujemy wejście
+        logger.debug("Received text: {}", request.getText());
+        logger.debug("Transforms: {}", Arrays.toString(request.getTransforms()));
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        TextTransformer transformer = new TextTransformer(transforms);
-        return transformer.transform(text);
+        // Wykonujemy transformacje
+        TextTransformer transformer = new TextTransformer(request.getTransforms());
+        String result = transformer.transform(request.getText());
+
+        // Zwracamy odpowiedź w formacie JSON
+        return new TextTransformResponse(result);
     }
-
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String post(@PathVariable String text,
-                      @RequestBody String[] transforms) {
-
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
-
-        // perform the transformation, you should run your logic here, below is just a silly example
-        TextTransformer transformer = new TextTransformer(transforms);
-        return transformer.transform(text);
-    }
-
-
-
 }
-
 
