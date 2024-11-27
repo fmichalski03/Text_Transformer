@@ -11,6 +11,13 @@ public class TextTransformer {
         this.transforms = transforms;
     }
 
+    private String capitalize(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+    }
+
     public String transform(String text){
         String result = text;
         for (String transform : transforms) {
@@ -18,8 +25,11 @@ public class TextTransformer {
                 result = result.toUpperCase();
             } else if ("reverse".equalsIgnoreCase(transform)) {
                 result = new StringBuilder(result).reverse().toString();
-            }
-            // Dodaj inne transformacje tutaj
+            } else if ("lower".equalsIgnoreCase(transform)) {
+                result = result.toLowerCase();
+            } else if ("capitalize".equalsIgnoreCase(transform)) {
+                result = capitalize(result);
+            } 
         }
         return result;
     }
