@@ -1,3 +1,5 @@
 /home/filip/Text_Transformer/src/main/java/pl/put/poznan/transformer/logic/TextTransformer.java
 /home/filip/Text_Transformer/src/main/java/pl/put/poznan/transformer/rest/TextTransformerController.java
+/home/filip/Text_Transformer/src/main/java/pl/put/poznan/transformer/logic/TextTransformRequest.java
 /home/filip/Text_Transformer/src/main/java/pl/put/poznan/transformer/app/TextTransformerApplication.java
+/home/filip/Text_Transformer/src/main/java/pl/put/poznan/transformer/logic/TextTransformResponse.java
