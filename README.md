@@ -3,6 +3,11 @@ https://docs.google.com/spreadsheets/d/e/2PACX-1vTn6j3M8pmGEzrsQk8mXse7lVHUdhYWk
 
 ![example workflow](https://github.com/fmichalski03/Text_Transformer/actions/workflows/ci.yml/badge.svg)
 
+## Building project
+```
+mvn package
+```
+
 ## Testing project
 ```
 mvn test
