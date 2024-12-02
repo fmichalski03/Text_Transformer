@@ -52,6 +52,12 @@ public class TextTransformerController {
                 case "verbalise":
                     className = "TransformVerbalise";
                     break;
+                case "remove":
+                    className = "TransformRemove";
+                    break;
+                case "tolatex":
+                    className = "TransformToLatex";
+                    break;
             }
 
             if (className == null) {
@@ -105,6 +111,12 @@ public class TextTransformerController {
                     break;
                 case "verbalise":
                     className = "TransformVerbalise";
+                    break;
+                case "remove":
+                    className = "TransformRemove";
+                    break;
+                case "tolatex":
+                    className = "TransformToLatex";
                     break;
             }
 
