@@ -20,7 +20,12 @@ public class TransformCapitalize extends TextTransformerDecorator{
         if (text == null || text.isEmpty()) {
             return text;
         }
-        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+        String[] words = text.split("\\s+");
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].substring(0, 1).toUpperCase() + words[i].substring(1).toLowerCase();
+        }
+        String result = String.join(" ", words);
+        return result;
     }
 
     @Override
