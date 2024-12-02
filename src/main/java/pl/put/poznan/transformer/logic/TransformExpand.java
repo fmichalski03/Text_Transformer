@@ -3,10 +3,6 @@ package pl.put.poznan.transformer.logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-
-import static java.lang.Character.isUpperCase;
-
 public class TransformExpand extends TextTransformerDecorator{
     private static final Logger logger = LoggerFactory.getLogger(TransformExpand.class);
     public TransformExpand(TextTransformerInterface transformer) {

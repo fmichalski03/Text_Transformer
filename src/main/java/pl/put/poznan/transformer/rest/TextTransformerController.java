@@ -18,7 +18,6 @@ public class TextTransformerController {
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-
     public TextTransformResponse transformText(@RequestBody TextTransformRequest request){
 
         // Logujemy wejście
@@ -50,21 +49,22 @@ public class TextTransformerController {
                 case "expand":
                     className = "TransformExpand";
                     break;
+                case "verbalise":
+                    className = "TransformVerbalise";
+                    break;
             }
 
             if (className == null) {
-                TextTransformResponse res = new TextTransformResponse("Nie istnieje tranformacja");
+                return new TextTransformResponse("Nie istnieje tranformacja " + transformation);
             }
 
             try {
                 Class<?> decoratorClass = Class.forName("pl.put.poznan.transformer.logic." + className);
-                transformer = (TextTransformerDecorator) decoratorClass.getDeclaredConstructor(TextTransformerInterface.class)
-                        .newInstance(transformer);
+                transformer = (TextTransformerDecorator) decoratorClass.getDeclaredConstructor(TextTransformerInterface.class).newInstance(transformer);
             } catch (ClassNotFoundException e) {
-                TextTransformResponse res = new TextTransformResponse(
-                        "Nie istnieje tranformacja " + transformation);
+                return new TextTransformResponse("Nie istnieje tranformacja " + transformation);
             } catch (Exception e) {
-                TextTransformResponse res = new TextTransformResponse("Transformacja nie powiodła się " + e);
+                return new TextTransformResponse("Transformacja nie powiodła się " + e);
             }
         }
 
@@ -102,6 +102,9 @@ public class TextTransformerController {
                     break;
                 case "expand":
                     className = "TransformExpand";
+                    break;
+                case "verbalise":
+                    className = "TransformVerbalise";
                     break;
             }
 
