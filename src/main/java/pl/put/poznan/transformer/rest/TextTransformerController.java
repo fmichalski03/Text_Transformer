@@ -58,6 +58,9 @@ public class TextTransformerController {
                 case "tolatex":
                     className = "TransformToLatex";
                     break;
+                case "shorten":
+                    className = "TransformShorten";
+                    break;
             }
 
             if (className == null) {
@@ -117,6 +120,9 @@ public class TextTransformerController {
                     break;
                 case "tolatex":
                     className = "TransformToLatex";
+                    break;
+                case "shorten":
+                    className = "TransformShorten";
                     break;
             }
 
