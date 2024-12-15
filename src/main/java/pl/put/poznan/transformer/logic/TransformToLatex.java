@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class TransformToLatex extends TextTransformerDecorator {
 
+    /**
+     * Logger instance for logging events and messages within the {@code TransformShorten} class.
+     */
     private static final Logger logger = LoggerFactory.getLogger(TransformToLatex.class);
 
     /**
