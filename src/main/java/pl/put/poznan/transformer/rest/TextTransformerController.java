@@ -28,6 +28,8 @@ public class TextTransformerController {
         // Wykonujemy transformacje
         TextTransformerInterface transformer = new TextTransformer();
 
+        logger.info("Starting transformation for text: {}", request.getText());
+
         for (String transformation : request.getTransforms()) {
             String className = null;
             switch(transformation) {
@@ -78,6 +80,7 @@ public class TextTransformerController {
         }
 
         String result = transformer.transform(request.getText());
+        logger.info("Transformation completed successfully, result: {}", result);
 
         return new TextTransformResponse(result);
     }
@@ -91,6 +94,9 @@ public class TextTransformerController {
 
         // Wykonujemy transformacje
         TextTransformerInterface transformer = new TextTransformer();
+
+        logger.info("Starting transformation for text: {}", text);
+
         for (String transformation : transforms) {
             String className = "";
             switch(transformation) {
@@ -142,6 +148,7 @@ public class TextTransformerController {
         }
 
         TextTransformResponse res = new TextTransformResponse(transformer.transform(text));
+        logger.info("Transformation completed successfully, result: {}", res);
         return ResponseEntity.ok(res);
     }
 }
