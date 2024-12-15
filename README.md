@@ -17,3 +17,7 @@ mvn test
 ```
 mvn spring-boot:run
 ```
+or
+```
+java -jar target/TextTransformerApplication-1.4.jar 
+```
