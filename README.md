@@ -19,5 +19,5 @@ mvn spring-boot:run
 ```
 or
 ```
-java -jar target/TextTransformerApplication-1.4.jar 
+java -jar target/TextTransformerApplication-<version>.jar 
 ```
