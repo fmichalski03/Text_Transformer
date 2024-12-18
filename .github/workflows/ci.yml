@@ -16,6 +16,7 @@ jobs:
           cache: maven
       - name: Validate, build and run tests
         run: mvn --batch-mode --update-snapshots verify
+        run: mvn test
       - name: Generuj Javadoc
         run: mvn javadoc:javadoc
       - name: Package the application into a JAR

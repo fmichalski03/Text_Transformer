@@ -32,8 +32,8 @@ public class TextTransformTest {
     }
 
     @Test
-    @DisplayName("Kilkukritne powtorzenie slow")
-    public void consecutiveRepetition(){
+    @DisplayName("Kilkukrotne powtorzenie slow")
+    public void consecutiveRepetitionTest(){
         try{
             transformer = (TextTransformerDecorator) TransformRemove.class.getDeclaredConstructor(TextTransformerInterface.class)
             .newInstance(transformer);
@@ -41,5 +41,16 @@ public class TextTransformTest {
                 System.exit(-1);
             }
             Assertions.assertEquals("do na tu", transformer.transform("do do do do na na na tu"));
+    }
+    @Test
+    @DisplayName("Kilkukritne powtorzenie slow")
+    public void tolatexTest(){
+        try{
+            transformer = (TextTransformerDecorator) TransformToLatex.class.getDeclaredConstructor(TextTransformerInterface.class)
+            .newInstance(transformer);
+        } catch (Exception e) {
+                System.exit(-1);
+            }
+            Assertions.assertEquals("\\~{} \\$ \\&", transformer.transform("~ $ &"));
     }
 }
