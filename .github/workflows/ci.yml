@@ -16,3 +16,18 @@ jobs:
           cache: maven
       - name: Validate, build and run tests
         run: mvn --batch-mode --update-snapshots verify
+      - name: Generuj Javadoc
+        run: mvn javadoc:javadoc
+      - name: Package the application into a JAR
+        run: mvn package
+      - name: Prepare artifact directory
+        run: |
+          mkdir -p artifact/javadoc
+          cp -r target/site/apidocs/* artifact/javadoc/
+      - name: Upload JAR and Javadoc artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-artifacts
+          path: |
+            target/*.jar
+            artifact/javadoc
