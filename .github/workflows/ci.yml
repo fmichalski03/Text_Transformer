@@ -14,8 +14,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
-      - name: Validate, build and run tests
+      - name: Validate
         run: mvn --batch-mode --update-snapshots verify
+      - name: Run tests
         run: mvn test
       - name: Generuj Javadoc
         run: mvn javadoc:javadoc
