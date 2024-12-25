@@ -1,17 +1,15 @@
 package pl.put.poznan.transformer;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 
 import pl.put.poznan.transformer.logic.*;
 public class TextTransformTest {
-
+    
     private TextTransformerInterface transformer;
 
     @BeforeEach
