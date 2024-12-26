@@ -5,6 +5,9 @@ target/
 *.iml
 *.iws
 
+# VS Code specific files
+.vscode/
+
 # Compiled class file
 *.class
 
