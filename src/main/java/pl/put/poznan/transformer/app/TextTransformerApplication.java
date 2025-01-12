@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +20,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -55,12 +61,16 @@ public class TextTransformerApplication {
         panel.add(userLabel, BorderLayout.NORTH);
     
         // Create a text field and set its background and border
-        textField = new JTextField();
-        textField.setPreferredSize(new Dimension(30, 30)); // Width: 150, Height: 30
-        textField.setBackground(panel.getBackground());
-        textField.setForeground(Color.BLUE);
-        textField.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
-        panel.add(textField, BorderLayout.CENTER);
+        JTextArea textField = new JTextArea(5, 30);
+        textField.setLineWrap(true);
+        textField.setWrapStyleWord(true);
+        textField.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        JScrollPane scrollPane = new JScrollPane(textField);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        // Dodaj przewijanie (opcjonalnie):
+        // JScrollPane scrollPane = new JScrollPane(textField);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        // panel.add(textField, BorderLayout.CENTER);
         
         // Create checkboxes for transformations
         JPanel checkboxPanel = new JPanel();
@@ -105,12 +115,74 @@ public class TextTransformerApplication {
         JButton submitButton = new JButton("Submit");
         panel.add(submitButton, BorderLayout.SOUTH);
     
-        // Add action listener to the button
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String inputText = textField.getText();
-                JOptionPane.showMessageDialog(panel, "You entered: " + inputText);
+                try {
+                    // Pobranie tekstu
+                    String inputText = textField.getText();
+
+                    // Zbieranie wybranych transformacji
+                    List<String> transforms = new ArrayList<>();
+                    if (inverseCheckbox.isSelected()) transforms.add("inverse");
+                    if (upperCheckbox.isSelected()) transforms.add("upper");
+                    if (lowerCheckbox.isSelected()) transforms.add("lower");
+                    if (capitalizeCheckbox.isSelected()) transforms.add("capitalize");
+                    if (reverseCheckbox.isSelected()) transforms.add("reverse");
+                    if (removeCheckbox.isSelected()) transforms.add("remove");
+                    if (toLatexCheckbox.isSelected()) transforms.add("tolatex");
+                    if (shortenCheckbox.isSelected()) transforms.add("shorten");
+                    if (expandCheckbox.isSelected()) transforms.add("expand");
+                    if (verbaliseCheckbox.isSelected()) transforms.add("verbalise");
+
+                    // Budowanie ciągu JSON (prosty przykład)
+                    StringBuilder jsonBuilder = new StringBuilder();
+                    jsonBuilder.append("{\"text\":\"").append(inputText).append("\",");
+                    jsonBuilder.append("\"transforms\":[");
+                    for (int i = 0; i < transforms.size(); i++) {
+                        jsonBuilder.append("\"").append(transforms.get(i)).append("\"");
+                        if (i < transforms.size() - 1) {
+                            jsonBuilder.append(",");
+                        }
+                    }
+                    jsonBuilder.append("]}");
+
+                    // Wysyłanie zapytania POST (przykład z wbudowanym HttpClient w Java 11+)
+                    HttpClient client = HttpClient.newHttpClient();
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("http://localhost:8080/dummy")) // lub inny parametr {text}
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(jsonBuilder.toString()))
+                            .build();
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                    // Wyświetlenie odpowiedzi
+                    // Parsowanie odpowiedzi JSON, aby uzyskać transformedText
+                    String responseBody = response.body();
+                    String transformedText = responseBody.substring(responseBody.indexOf("transformedText\":\"") + 18, responseBody.lastIndexOf("\""));
+                    
+                    // Wyświetlenie transformedText
+                    JPanel panelWithLabel = new JPanel(new BorderLayout());
+                    JLabel label = new JLabel("Odpowiedź z serwera:");
+                    panelWithLabel.add(label, BorderLayout.NORTH);
+
+                    JTextArea textArea = new JTextArea(transformedText);
+                    textArea.setEditable(false);
+                    textArea.setLineWrap(true);
+                    textArea.setWrapStyleWord(true);
+
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    scrollPane.setPreferredSize(new Dimension(400, 200));
+                    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+                    panelWithLabel.add(scrollPane, BorderLayout.CENTER);
+
+                    JOptionPane.showMessageDialog(panel, panelWithLabel, "Odpowiedź", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(panel, "Wystąpił błąd: " + ex.getMessage());
+                }
             }
         });
     
