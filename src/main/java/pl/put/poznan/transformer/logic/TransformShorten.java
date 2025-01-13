@@ -81,7 +81,6 @@ public class TransformShorten extends TextTransformerDecorator{
                 {"na przykład", "np."},
                 {"i tak dalej", "itd."},
                 {"i tym podobne", "itp."},
-                {"ciąg dalszy", "cd."},
                 {"ciąg dalszy nastąpi", "cdn."},
                 {"lekarz", "lek."},
                 {"licencjat", "lic."},
